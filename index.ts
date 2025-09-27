@@ -111,7 +111,15 @@ async function fetchReport(data: String) {
     */
 
     try {
-        const url = "https://openai-api-worker.guil-9d2.workers.dev"
+        const url = "https://winter-boat-d277.nestinghaiti.workers.dev"
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ messages })
+        });
+        console.log('Response status:', response);
     } catch (err) {
         if (err instanceof Error) {
             console.error(err.message)
