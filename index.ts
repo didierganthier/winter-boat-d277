@@ -1,10 +1,5 @@
 import { dates } from "./utils/date"
 
-interface Message {
-    role: 'system' | 'user'
-    content: string
-}
-
 interface RenderReportOutput {
     output: string
 }
