@@ -12,6 +12,12 @@
  */
 import OpenAI from 'openai';
 
+const corsHeaders = {
+	'Access-Control-Allow-Origin': '*',
+	'Access-Control-Allow-Methods': 'POST, OPTIONS',
+	'Access-Control-Allow-Headers': 'Content-Type',
+}
+
 export default {
 	async fetch(request, env, ctx): Promise<Response> {
 		const openai = new OpenAI({
