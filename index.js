@@ -110,13 +110,11 @@ async function fetchReport(data) {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ messages })
+            body: JSON.stringify(messages)
         });
         const result = await response.json();
         console.log('Response:', result);
-        if (result && result.output) {
-            renderReport(result.output);
-        }
+        renderReport(result);
     } catch (err) {
         if (err instanceof Error) {
             console.error(err.message);
