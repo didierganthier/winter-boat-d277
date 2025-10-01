@@ -20,23 +20,25 @@ const corsHeaders = {
 
 export default {
 	async fetch(request, env, ctx): Promise<Response> {
+		if (request.method === 'OPTIONS') {
+			return new Response('ok', { headers: corsHeaders });
+		}
+
 		const openai = new OpenAI({
 			apiKey: env.OPENAI_APIKEY,
 		});
 
 		try {
+
+			const messages = await request.json() as OpenAI.Chat.ChatCompletionMessageParam[];
 			const completion = await openai.chat.completions.create({
 				model: 'gpt-3.5-turbo',
-				messages: [
-					{ role: 'system', content: 'You are a helpful assistant that translates English to French.' },
-					{ role: 'user', content: 'Translate the following English text to French: "Hello, how are you?"' },
-				],
+				messages: messages,
 			});
-			console.log(completion.choices[0].message);
-			return new Response(completion.choices[0].message.content);
+			const response = completion.choices[0].message.content;
+			return new Response(JSON.stringify(response), { headers: corsHeaders });
 		} catch (error) {
-			console.error('Error fetching OpenAI completion:', error);
-			return new Response('Error fetching translation', { status: 500 });
+			return new Response('Error fetching translation', { status: 500, headers: corsHeaders },);
 		}
 	},
 } satisfies ExportedHandler<Env>;

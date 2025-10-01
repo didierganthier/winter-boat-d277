@@ -75,7 +75,7 @@ async function fetchStockData() {
 }
 
 async function fetchReport(data: String) {
-    const messages = [
+const messages = [
         {
             role: 'system',
             content: 'You are a trading guru. Given data on share prices over the past 3 days, write a report of no more than 150 words describing the stocks performance and recommending whether to buy, hold or sell. Use the examples provided between ### to set the style your response.'
@@ -111,7 +111,8 @@ async function fetchReport(data: String) {
             },
             body: JSON.stringify({ messages })
         });
-        console.log('Response status:', response);
+        const data = await response.json() as RenderReportOutput
+        renderReport(data.output)
     } catch (err) {
         if (err instanceof Error) {
             console.error(err.message)
